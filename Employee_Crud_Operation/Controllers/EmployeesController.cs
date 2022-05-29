@@ -20,37 +20,37 @@ namespace Employee_Crud_Operation.Controllers
         }
 
         [HttpGet("get-all-employees")]
-        public IActionResult GetAllEmployees()
+        public async Task<IActionResult> GetAllEmployees()
         {
-            var allEmployees = _employeesService.GetAllEmployees();
+            var allEmployees = await _employeesService.GetAllEmployees();
             return Ok(allEmployees);
         }
 
         [HttpGet("get-employee-by-id/{id}")]
-        public IActionResult GetEmployeeById(int id)
+        public async Task<IActionResult> GetEmployeeById(int id)
         {
-            var employee = _employeesService.GetEmployeeById(id);
+            var employee = await _employeesService.GetEmployeeById(id);
             return Ok(employee);
         }
 
         [HttpPost("add-employee")]
-        public IActionResult AddEmployee([FromBody] EmployeeVM employee)
+        public async Task<IActionResult> AddEmployee([FromBody] EmployeeVM employee)
         {
-            _employeesService.AddEmployee(employee);
+            await _employeesService.AddEmployee(employee);
             return Ok();
         }
 
         [HttpPut("update-employee-by-id/{id}")]
-        public IActionResult UpdateEmployeeById(int id, [FromBody] EmployeeVM employee)
+        public async Task<IActionResult> UpdateEmployeeById(int id, [FromBody] EmployeeVM employee)
         {
-            var UpdatedEmployee = _employeesService.UpdateEmployeeById(id, employee);
+            var UpdatedEmployee = await _employeesService.UpdateEmployeeById(id, employee);
             return Ok(UpdatedEmployee);
         }
 
         [HttpDelete("delete-employee-by-id/{id}")]
-        public IActionResult DeleteEmployeeById(int id)
+        public async Task<IActionResult> DeleteEmployeeById(int id)
         {
-            _employeesService.DeleteEmployeeById(id);
+            await _employeesService.DeleteEmployeeById(id);
             return Ok();
         }
     }

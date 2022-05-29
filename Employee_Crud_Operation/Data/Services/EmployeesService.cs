@@ -1,5 +1,6 @@
 ﻿using Employee_Crud_Operation.Data.Models;
 using Employee_Crud_Operation.Data.Models.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Employee_Crud_Operation.Data.Services
         {
             _context = context;
         }
-        public void AddEmployee(EmployeeVM employee)
+        public async Task AddEmployee(EmployeeVM employee)
         {
             var _employee = new Employee()
             {
@@ -27,21 +28,21 @@ namespace Employee_Crud_Operation.Data.Services
             };
 
             _context.Employees.Add(_employee);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
-        public List<Employee> GetAllEmployees()
+        public async Task<List<Employee>> GetAllEmployees()
         {
-            var allEmployee = _context.Employees.ToList();
+            var allEmployee = await _context.Employees.ToListAsync();
             return allEmployee;
         }
 
-        public Employee GetEmployeeById(int employeeId)
+        public async Task<Employee> GetEmployeeById(int employeeId)
         {
-            var _employee = _context.Employees.FirstOrDefault(n => n.Id == employeeId);
+            var _employee = await _context.Employees.FirstOrDefaultAsync(n => n.Id == employeeId);
             return _employee;
         }
 
-        public Employee UpdateEmployeeById(int employeeId, EmployeeVM employee)
+        public async Task<Employee> UpdateEmployeeById(int employeeId, EmployeeVM employee)
         {
             var _employee = _context.Employees.FirstOrDefault(n => n.Id == employeeId);
 
@@ -53,19 +54,19 @@ namespace Employee_Crud_Operation.Data.Services
                 _employee.Designation = employee.Designation;
                 _employee.Salary = employee.Salary;
 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
             return _employee;
         }
 
-        public void DeleteEmployeeById(int employeeId)
+        public async Task DeleteEmployeeById(int employeeId)
         {
             var _employee = _context.Employees.FirstOrDefault(n => n.Id == employeeId);
 
             if (_employee != null)
             {
                 _context.Employees.Remove(_employee);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
     }
